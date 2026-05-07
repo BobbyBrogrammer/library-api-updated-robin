@@ -1,6 +1,7 @@
 package com.example.boilerroom.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -22,6 +23,12 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${security.username}")
+    private String username;
+
+    @Value("${security.password}")
+    private String password;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -55,8 +62,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         var user = User.builder()
-                .username("robin")
-                .password(encoder.encode("secret"))
+                .username(username)
+                .password(encoder.encode(password))
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user);
