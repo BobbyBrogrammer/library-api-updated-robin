@@ -1,11 +1,14 @@
 package com.example.boilerroom.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 // LoanDTOs uppgift är att representera ett lån i både request och response.
 // Vid request används bara "bookId". I response inkluderas även "id", "bookTitle", "loanDate" och "returnDate".
 public class LoanDTO {
     private Long id;
+    @NotNull(message = "Book ID is required")
     private Long bookId;
     private String bookTitle;
     private LocalDate loanDate;

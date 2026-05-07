@@ -1,6 +1,8 @@
 package com.example.boilerroom.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 // BookRequests uppgift är att representera inkommande data när en ny bok skapas via POST /api/v1/books.
@@ -19,6 +21,8 @@ public class BookRequest {
     private String isbn;
 
     @Schema(description = "Year the book was published")
+    @Min(value = 1000, message = "Published year must at least be 1000")
+    @Max(value = 2030, message = "Published year cant exceed 2030")
     private int publishedYear;
 
     // Getters

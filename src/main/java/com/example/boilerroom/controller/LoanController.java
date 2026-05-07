@@ -4,6 +4,7 @@ import com.example.boilerroom.dto.LoanDTO;
 import com.example.boilerroom.service.LoanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class LoanController {
     @ApiResponse(responseCode = "400", description = "Book is already on loan")
     @ApiResponse(responseCode = "404", description = "Book not found")
     @PostMapping
-    public ResponseEntity<LoanDTO> create(@RequestBody LoanDTO dto) {
+    public ResponseEntity<LoanDTO> create(@RequestBody @Valid LoanDTO dto) {
         LoanDTO response = service.create(dto.getBookId());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
