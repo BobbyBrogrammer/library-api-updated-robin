@@ -1,10 +1,11 @@
 package com.example.boilerroom.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serializable;
 
 // BookResponses uppgift är att representera en bok i API-svaret (v1).
 // Innehåller "id", "title", "author" (som en sträng), "isbn" och "publishedYear".
-public class BookResponse {
+public class BookResponse implements Serializable {
 
     @Schema(description = "Title of the book")
     private String title;

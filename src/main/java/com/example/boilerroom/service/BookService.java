@@ -9,6 +9,7 @@ import com.example.boilerroom.model.Book;
 import com.example.boilerroom.repository.AuthorRepository;
 import com.example.boilerroom.repository.BookRepository;
 import com.example.boilerroom.repository.LoanRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class BookService {
         return responses;
     }
 
+    @Cacheable(value = "books", key = "#id")
     public BookResponse getById(Long id) {
         Optional<Book> bookOptional = bookRepository.findById(id);
         if (bookOptional.isEmpty()) {
