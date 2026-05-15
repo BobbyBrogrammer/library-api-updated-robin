@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# JMeter generated reports
+docs/report-before-redis/
+docs/report-after-redis/
