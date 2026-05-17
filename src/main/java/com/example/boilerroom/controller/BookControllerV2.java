@@ -5,6 +5,8 @@ import com.example.boilerroom.dto.BookResponseV2;
 import com.example.boilerroom.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,13 +23,23 @@ import java.util.List;
         @Operation(summary = "Get all books")
         @ApiResponse(responseCode = "200", description = "List of all books")
         @GetMapping
-        public BookListResponseV2 getAll() {
-            List<BookResponseV2> books = service.getAllV2();
+        public BookListResponseV2 getAll(Pageable pageable) {
+            Page<BookResponseV2> books = service.getAllV2(pageable);
             BookListResponseV2 response = new BookListResponseV2();
             response.setVersion("v2");
-            response.setData(books);
+            response.setData(books.getContent());
             return response;
         }
+
+
+//    First method, commenting out this one to see whats changed, when implementing Pageable
+//        public BookListResponseV2 getAll() {
+//            List<BookResponseV2> books = service.getAllV2();
+//            BookListResponseV2 response = new BookListResponseV2();
+//            response.setVersion("v2");
+//            response.setData(books);
+//            return response;
+//        }
 
 
     }

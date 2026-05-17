@@ -5,9 +5,12 @@ import com.example.boilerroom.dto.BookResponse;
 import com.example.boilerroom.exception.BookNotFoundException;
 import com.example.boilerroom.model.Author;
 import com.example.boilerroom.repository.AuthorRepository;
+import com.example.boilerroom.repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+//import java.util.List;
 import java.util.Optional;
 
 // Ansvarar för logiken kring författare och hämtar data från AuthorRepository.
@@ -16,9 +19,11 @@ import java.util.Optional;
 public class AuthorService {
 
     private final AuthorRepository repository;
+    private final BookRepository bookRepository;
 
-    public AuthorService(AuthorRepository repository) {
+    public AuthorService(AuthorRepository repository, BookRepository bookRepository) {
         this.repository = repository;
+        this.bookRepository = bookRepository;
     }
 
     public AuthorDTO create(AuthorDTO dto) {
@@ -47,24 +52,41 @@ public class AuthorService {
         return response;
     }
 
-    public List<BookResponse> getBooksByAuthorId(Long id) {
-        Optional<Author> optional = repository.findById(id);
-        if (optional.isEmpty()) {
+    public Page<BookResponse> getBooksByAuthorId(Long id, Pageable pageable) {
+        if (!repository.existsById(id)) {
             throw new BookNotFoundException(id);
         }
-
-        Author author = optional.get();
-        return author.getBooks().stream()
+        return bookRepository.findByAuthorId(id, pageable)
                 .map(book -> {
                     BookResponse response = new BookResponse();
                     response.setId(book.getId());
                     response.setTitle(book.getTitle());
-                    response.setAuthor(author.getName());
+                    response.setAuthor(book.getAuthor() != null ? book.getAuthor().getName() : null);
                     response.setIsbn(book.getIsbn());
                     response.setPublishedYear(book.getPublishedYear());
                     return response;
-                })
-                .toList();
+                });
     }
+
+// First method, commenting out to see whats changed when implementing Pagination
+//    public List<BookResponse> getBooksByAuthorId(Long id) {
+//        Optional<Author> optional = repository.findById(id);
+//        if (optional.isEmpty()) {
+//            throw new BookNotFoundException(id);
+//        }
+//
+//        Author author = optional.get();
+//        return author.getBooks().stream()
+//                .map(book -> {
+//                    BookResponse response = new BookResponse();
+//                    response.setId(book.getId());
+//                    response.setTitle(book.getTitle());
+//                    response.setAuthor(author.getName());
+//                    response.setIsbn(book.getIsbn());
+//                    response.setPublishedYear(book.getPublishedYear());
+//                    return response;
+//                })
+//                .toList();
+//    }
 
 }

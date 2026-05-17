@@ -6,11 +6,13 @@ import com.example.boilerroom.service.AuthorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+//import java.util.List;
 
 // Hanterar HTTP-anrop för författare och skickar dem vidare till AuthorService.
 // POST /api/v1/authors, GET /api/v1/authors/{id} och GET /api/v1/authors/{id}/books.
@@ -44,7 +46,12 @@ public class AuthorController {
     @ApiResponse(responseCode = "200", description = "List of books for author")
     @ApiResponse(responseCode = "404", description = "Author not found")
     @GetMapping("/{id}/books")
-    public List<BookResponse> getBooksByAuthorId(@PathVariable Long id) {
-        return service.getBooksByAuthorId(id);
+    public Page<BookResponse> getBooksByAuthorId(@PathVariable Long id, Pageable pageable) {
+        return service.getBooksByAuthorId(id, pageable);
     }
+
+// First method, commented out to see whats changed, when implementing Pagination
+//    public List<BookResponse> getBooksByAuthorId(@PathVariable Long id) {
+//        return service.getBooksByAuthorId(id);
+//    }
 }

@@ -10,6 +10,8 @@ import com.example.boilerroom.repository.AuthorRepository;
 import com.example.boilerroom.repository.BookRepository;
 import com.example.boilerroom.repository.LoanRepository;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,21 +56,35 @@ public class BookService {
         return response;
     }
 
-    public List<BookResponse> getAll() {
-        List<Book> books = bookRepository.findAll();
-        List<BookResponse> responses = new ArrayList<>();
-
-        for (Book book : books) {
-            BookResponse response = new BookResponse();
-            response.setId(book.getId());
-            response.setTitle(book.getTitle());
-            response.setAuthor(book.getAuthor() != null ? book.getAuthor().getName() : null);
-            response.setIsbn(book.getIsbn());
-            response.setPublishedYear(book.getPublishedYear());
-            responses.add(response);
-        }
-        return responses;
+    public Page<BookResponse> getAll(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(book -> {
+                    BookResponse response = new BookResponse();
+                    response.setId(book.getId());
+                    response.setTitle(book.getTitle());
+                    response.setAuthor(book.getAuthor() != null ? book.getAuthor().getName() : null);
+                    response.setIsbn(book.getIsbn());
+                    response.setPublishedYear(book.getPublishedYear());
+                    return response;
+                });
     }
+
+// First method, upgrading to a new one when implementing Pagination
+//    public List<BookResponse> getAll() {
+//        List<Book> books = bookRepository.findAll();
+//        List<BookResponse> responses = new ArrayList<>();
+//
+//        for (Book book : books) {
+//            BookResponse response = new BookResponse();
+//            response.setId(book.getId());
+//            response.setTitle(book.getTitle());
+//            response.setAuthor(book.getAuthor() != null ? book.getAuthor().getName() : null);
+//            response.setIsbn(book.getIsbn());
+//            response.setPublishedYear(book.getPublishedYear());
+//            responses.add(response);
+//        }
+//        return responses;
+//    }
 
     @Cacheable(value = "books", key = "#id")
     public BookResponse getById(Long id) {
@@ -87,21 +103,36 @@ public class BookService {
         return response;
     }
 
-    public List<BookResponseV2> getAllV2() {
-        List<Book> books = bookRepository.findAll();
-        List<BookResponseV2> responses = new ArrayList<>();
-
-        for (Book book : books) {
-            BookResponseV2 response = new BookResponseV2();
-            response.setId(book.getId());
-            response.setTitle(book.getTitle());
-            response.setAuthor(book.getAuthor() != null ? book.getAuthor().getName() : null);
-            response.setIsbn(book.getIsbn());
-            response.setPublishedYear(book.getPublishedYear());
-            response.setAvailable(!loanRepository.existsByBookId(book.getId()));
-            responses.add(response);
-        }
-        return responses;
+    public Page<BookResponseV2> getAllV2(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(book -> {
+                    BookResponseV2 response = new BookResponseV2();
+                    response.setId(book.getId());
+                    response.setTitle(book.getTitle());
+                    response.setAuthor(book.getAuthor() != null ? book.getAuthor().getName() : null);
+                    response.setIsbn(book.getIsbn());
+                    response.setPublishedYear(book.getPublishedYear());
+                    response.setAvailable(!loanRepository.existsByBookId(book.getId()));
+                    return response;
+                });
     }
+
+// First method, upgrading to a new one when implementing Pagination
+//    public List<BookResponseV2> getAllV2() {
+//        List<Book> books = bookRepository.findAll();
+//        List<BookResponseV2> responses = new ArrayList<>();
+//
+//        for (Book book : books) {
+//            BookResponseV2 response = new BookResponseV2();
+//            response.setId(book.getId());
+//            response.setTitle(book.getTitle());
+//            response.setAuthor(book.getAuthor() != null ? book.getAuthor().getName() : null);
+//            response.setIsbn(book.getIsbn());
+//            response.setPublishedYear(book.getPublishedYear());
+//            response.setAvailable(!loanRepository.existsByBookId(book.getId()));
+//            responses.add(response);
+//        }
+//        return responses;
+//    }
 
 }

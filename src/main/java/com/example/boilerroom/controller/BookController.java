@@ -6,11 +6,13 @@ import com.example.boilerroom.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+//import java.util.List;
 
 // BookControllers uppgift är att ta emot HTTP-anrop för böcker (v1) och skicka dem vidare till BookService.
 // Hanterar GET /api/v1/books, GET /api/v1/books/{id} och POST /api/v1/books.
@@ -26,9 +28,13 @@ public class BookController {
     @Operation(summary = "Get all books")
     @ApiResponse(responseCode = "200", description = "List of all books")
     @GetMapping
-    public List<BookResponse> getAll() {
-        return service.getAll();
+    public Page<BookResponse> getAll(Pageable pageable) {
+        return service.getAll(pageable);
     }
+//    First method, commenting out this one to see whats changed, when implementing Pageable
+//    public List<BookResponse> getAll() {
+//        return service.getAll();
+//    }
 
     @Operation(summary = "Create a new book")
     @ApiResponse(responseCode = "201", description = "Book created successfully")
