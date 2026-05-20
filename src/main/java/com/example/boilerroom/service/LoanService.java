@@ -7,11 +7,13 @@ import com.example.boilerroom.model.Book;
 import com.example.boilerroom.model.Loan;
 import com.example.boilerroom.repository.BookRepository;
 import com.example.boilerroom.repository.LoanRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
+//import java.util.List;
 
 // LoanServices uppgift är att hantera logiken för lån och hämta data från LoanRepository och BookRepository.
 // Affärsregeln att en bok bara får ha ett aktivt lån upprätthålls här.
@@ -51,8 +53,8 @@ public class LoanService {
         return response;
     }
 
-    public List<LoanDTO> getAll() {
-        return loanRepository.findAll().stream()
+    public Page<LoanDTO> getAll(Pageable pageable) {
+        return loanRepository.findAll(pageable)
                 .map(loan -> {
                     LoanDTO dto = new LoanDTO();
                     dto.setId(loan.getId());
@@ -61,7 +63,21 @@ public class LoanService {
                     dto.setLoanDate(loan.getLoanDate());
                     dto.setReturnDate(loan.getReturnDate());
                     return dto;
-                })
-                .toList();
+                });
     }
+
+//First method, commenting out to see whats changed when implementing Pagination
+//    public List<LoanDTO> getAll() {
+//        return loanRepository.findAll().stream()
+//                .map(loan -> {
+//                    LoanDTO dto = new LoanDTO();
+//                    dto.setId(loan.getId());
+//                    dto.setBookId(loan.getBook().getId());
+//                    dto.setBookTitle(loan.getBook().getTitle());
+//                    dto.setLoanDate(loan.getLoanDate());
+//                    dto.setReturnDate(loan.getReturnDate());
+//                    return dto;
+//                })
+//                .toList();
+//    }
 }

@@ -5,11 +5,13 @@ import com.example.boilerroom.service.LoanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+//import java.util.List;
 
 // Tar emot HTTP-anrop för lån och skickar dem vidare till LoanService.
 // Hanterar POST /api/v1/loans och GET /api/v1/loans.
@@ -36,7 +38,11 @@ public class LoanController {
     @Operation(summary = "Get all loans")
     @ApiResponse(responseCode = "200", description = "List of all loans")
     @GetMapping
-    public List<LoanDTO> getAll() {
-        return service.getAll();
+    public Page<LoanDTO> getAll(Pageable pageable) {
+        return service.getAll(pageable);
     }
+//First method, commented out to see whats changed
+//    public List<LoanDTO> getAll() {
+//        return service.getAll();
+//    }
 }
