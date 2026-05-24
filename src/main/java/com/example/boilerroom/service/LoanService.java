@@ -1,5 +1,4 @@
 package com.example.boilerroom.service;
-
 import com.example.boilerroom.dto.LoanDTO;
 import com.example.boilerroom.exception.BookAlreadyOnLoanException;
 import com.example.boilerroom.exception.BookNotFoundException;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 //import java.util.List;
 

@@ -1,5 +1,4 @@
 package com.example.boilerroom.dto;
-
 import java.util.List;
 
 // Wrappas svaret från GET /api/v2/books med "data" (boklistan) och "version" (alltid "v2").

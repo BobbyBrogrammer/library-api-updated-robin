@@ -1,5 +1,4 @@
 package com.example.boilerroom.dto;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,17 +22,17 @@ public class BookRequest {
     @Schema(description = "Year the book was published")
     @Min(value = 1000, message = "Published year must at least be 1000")
     @Max(value = 2030, message = "Published year cant exceed 2030")
-    private int publishedYear;
+    private Integer publishedYear;
 
     // Getters
     public String getTitle() {return title;}
     public Long getAuthorId() {return authorId;}
     public String getIsbn() {return isbn;}
-    public int getPublishedYear() {return publishedYear;}
+    public Integer getPublishedYear() {return publishedYear;}
 
     // Setters
     public void setTitle(String title) {this.title = title;}
     public void setAuthorId(Long authorId) {this.authorId = authorId;}
     public void setIsbn(String isbn) {this.isbn = isbn;}
-    public void setPublishedYear(int publishedYear) {this.publishedYear = publishedYear;}
+    public void setPublishedYear(Integer publishedYear) {this.publishedYear = publishedYear;}
 }

@@ -1,7 +1,5 @@
 package com.example.boilerroom.dto;
-
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
 // LoanDTOs uppgift är att representera ett lån i både request och response.

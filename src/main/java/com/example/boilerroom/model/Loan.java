@@ -1,7 +1,5 @@
 package com.example.boilerroom.model;
-
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 // Representerar ett lån i systemet.

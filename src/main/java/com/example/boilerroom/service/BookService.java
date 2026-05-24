@@ -1,8 +1,8 @@
 package com.example.boilerroom.service;
-
 import com.example.boilerroom.dto.BookRequest;
 import com.example.boilerroom.dto.BookResponse;
 import com.example.boilerroom.dto.BookResponseV2;
+import com.example.boilerroom.exception.AuthorNotFoundException;
 import com.example.boilerroom.exception.BookNotFoundException;
 import com.example.boilerroom.model.Author;
 import com.example.boilerroom.model.Book;
@@ -13,11 +13,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 import java.util.Optional;
-
 
 // BookServices uppgift är att hantera logiken för böcker och hämta data från BookRepository och AuthorRepository.
 // LoanRepository används här för att avgöra om en bok är tillgänglig i v2-svaret.
@@ -37,11 +35,11 @@ public class BookService {
         Book book = new Book();
         book.setTitle(request.getTitle());
         book.setIsbn(request.getIsbn());
-        book.setPublishedYear(request.getPublishedYear());
+        book.setPublishedYear(request.getPublishedYear() != null ? request.getPublishedYear() : 0);
 
         if (request.getAuthorId() != null) {
             Author author = authorRepository.findById(request.getAuthorId())
-                    .orElseThrow(() -> new BookNotFoundException(request.getAuthorId()));
+                    .orElseThrow(() -> new AuthorNotFoundException(request.getAuthorId()));
             book.setAuthor(author);
         }
 

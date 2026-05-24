@@ -20,6 +20,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
 
+    @ExceptionHandler(AuthorNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAuthorNotFound(AuthorNotFoundException ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(LocalDateTime.now().toString(), 404, "Not found",
+                ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationError(
             MethodArgumentNotValidException ex, HttpServletRequest request) {

@@ -1,15 +1,13 @@
 package com.example.boilerroom.service;
-
 import com.example.boilerroom.dto.AuthorDTO;
 import com.example.boilerroom.dto.BookResponse;
-import com.example.boilerroom.exception.BookNotFoundException;
+import com.example.boilerroom.exception.AuthorNotFoundException;
 import com.example.boilerroom.model.Author;
 import com.example.boilerroom.repository.AuthorRepository;
 import com.example.boilerroom.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 //import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +39,7 @@ public class AuthorService {
     public AuthorDTO getById(Long id) {
         Optional<Author> optional = repository.findById(id);
         if (optional.isEmpty()) {
-            throw new BookNotFoundException(id);
+            throw new AuthorNotFoundException(id);
         }
 
         Author author = optional.get();
@@ -54,7 +52,7 @@ public class AuthorService {
 
     public Page<BookResponse> getBooksByAuthorId(Long id, Pageable pageable) {
         if (!repository.existsById(id)) {
-            throw new BookNotFoundException(id);
+            throw new AuthorNotFoundException(id);
         }
         return bookRepository.findByAuthorId(id, pageable)
                 .map(book -> {
@@ -72,7 +70,7 @@ public class AuthorService {
 //    public List<BookResponse> getBooksByAuthorId(Long id) {
 //        Optional<Author> optional = repository.findById(id);
 //        if (optional.isEmpty()) {
-//            throw new BookNotFoundException(id);
+//            throw new BookNotFoundException(id); <-- I used "BookNotFoundException" for Author at first, its now fixed
 //        }
 //
 //        Author author = optional.get();

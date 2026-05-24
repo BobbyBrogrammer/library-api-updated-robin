@@ -1,5 +1,4 @@
 package com.example.boilerroom.controller;
-
 import com.example.boilerroom.dto.LoanDTO;
 import com.example.boilerroom.service.LoanService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 //import java.util.List;
 
 // Tar emot HTTP-anrop för lån och skickar dem vidare till LoanService.

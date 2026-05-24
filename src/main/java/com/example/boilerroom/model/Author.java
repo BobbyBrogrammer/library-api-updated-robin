@@ -1,7 +1,5 @@
 package com.example.boilerroom.model;
-
 import jakarta.persistence.*;
-
 import java.util.List;
 
 // Representerar en författare i systemet.
@@ -13,7 +11,7 @@ public class Author {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Book> books;
 
     public Author() {}

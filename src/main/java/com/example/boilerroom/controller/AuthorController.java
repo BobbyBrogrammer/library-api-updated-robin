@@ -1,5 +1,4 @@
 package com.example.boilerroom.controller;
-
 import com.example.boilerroom.dto.AuthorDTO;
 import com.example.boilerroom.dto.BookResponse;
 import com.example.boilerroom.service.AuthorService;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 //import java.util.List;
 
 // Hanterar HTTP-anrop för författare och skickar dem vidare till AuthorService.

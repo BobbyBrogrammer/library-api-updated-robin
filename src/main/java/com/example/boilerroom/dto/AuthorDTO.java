@@ -1,5 +1,4 @@
 package com.example.boilerroom.dto;
-
 import jakarta.validation.constraints.NotBlank;
 
 // AuthorDTOs uppgift är att representera en författare i både request och response.
